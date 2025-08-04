@@ -1,4 +1,4 @@
-resource "aws_vpc" "confloss_openstack-vpc" {
+resource "aws_vpc" "project_name" {
   cidr_block = var.vpc_cidr_block
   tags = merge(local.tags,
     {

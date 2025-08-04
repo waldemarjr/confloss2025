@@ -1,5 +1,5 @@
-resource "aws_subnet" "confloss_openstack-private_network" {
-  vpc_id            = aws_vpc.confloss_openstack-vpc.id
+resource "aws_subnet" "private_network" {
+  vpc_id            = aws_vpc.project_name.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, 2)
   availability_zone = "${data.aws_region.current.region}a"
 
