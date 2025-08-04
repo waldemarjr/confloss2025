@@ -1,0 +1,43 @@
+# Ignore all log files
+*.log
+
+# Ignore the 'temp' directory and its contents
+temp/
+
+# Ignore a specific file named 'config.local.js'
+config.local.js
+
+# Ignore all .md files except README.md
+*.md
+!README.md
+
+# Local .terraform directories
+**/.terraform/
+
+# Terraform Lock
+.terraform.lock.hcl
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Variable files (often contain sensitive data)
+*.tfvars
+*.tfvars.json
+
+# Override files (usually for local development)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Terraform plan output files (if generated and not meant for version control)
+*.tfplan*
