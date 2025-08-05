@@ -1,6 +1,5 @@
-resource "aws_subnet" "public_network" { 
-  vpc_id = aws_vpc.project_name.id
-  #aws_vpc.confloss_openstack-vpc.id
+resource "aws_subnet" "public_network" {
+  vpc_id            = aws_vpc.project_name.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, 1)
   availability_zone = "${data.aws_region.current.region}a"
 
@@ -11,7 +10,7 @@ resource "aws_subnet" "public_network" {
       Name = "${var.project_name}-public_network"
     }
   )
-  
+
 }
 
 resource "aws_route_table_association" "rtb_pubnet_assoc" {

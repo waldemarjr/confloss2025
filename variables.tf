@@ -24,3 +24,25 @@ variable "map_public_ip_priv_network" {
   description = "Auto MAP public IP for private network"
 }
 
+
+// VPN Server instance
+variable "vpn_server_ami" {
+  type        = string
+  description = "AMI of VPN Server instance"
+}
+
+variable "vpn_server_type" {
+  type        = string
+  description = "Type of VPN Server instance"
+}
+
+variable "vpn_server_vol_type" {
+  type        = string
+  description = "Volume type of VPN Server instance"
+}
+
+variable "vpn_server_vol_size" {
+  type        = string
+  description = "Volume size of VPN Server instance"
+}
+
