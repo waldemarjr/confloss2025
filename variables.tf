@@ -91,3 +91,7 @@ variable "os_comp_node_server_vol_size" {
   description = "Volume size of Openstack Compute Server instance"
 }
 
+variable "prikey_path" {
+  type        = string
+  description = "Private key path"
+}

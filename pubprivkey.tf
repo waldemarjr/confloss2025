@@ -12,6 +12,6 @@ resource "aws_key_pair" "pubkey" {
 
 resource "local_file" "private_key_file" {
   content         = tls_private_key.ssh_key_pair.private_key_pem
-  filename        = "/home/waldemar/confloss2025/aws/${var.project_name}-privkey.pem"
+  filename        = "${var.prikey_path}/${var.project_name}-privkey.pem"
   file_permission = "0600"
 }
