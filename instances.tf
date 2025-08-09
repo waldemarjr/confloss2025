@@ -151,4 +151,3 @@ resource "aws_network_interface" "os_comp_node_server_privnet_interf" {
   )
 }
 
-
