@@ -1,0 +1,53 @@
+---
+- name: Get config file IP forward
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/waldemarjr/confloss2025/refs/heads/main/vpn_server/99-ipfwd.conf"
+    dest: "/etc/sysctl.d/99-ipfwd.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start the Sysctl Service
+  ansible.builtin.systemd_service:
+    name: systemd-sysctl.service
+    enabled: true
+    state: restarted
+
+- name: Install OpenVPN
+  ansible.builtin.apt:
+    name: openvpn
+    state: present
+    update_cache: true
+
+- name: Get config file OpenVPN
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/waldemarjr/confloss2025/refs/heads/main/vpn_server/vpn_server.conf"
+    dest: "/etc/openvpn/vpn_server.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create directory keys for OpenVPN
+  ansible.builtin.file:
+    path: /etc/openvpn/keys
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Generate static key OpenVPN
+  ansible.builtin.shell: if [ ! -e /etc/openvpn/keys/static.key ]; then openvpn --genkey > /etc/openvpn/keys/static.key; fi
+  register: output
+  changed_when: output.rc != 0
+
+- name: Get static key file from VPN Server
+  ansible.builtin.fetch:
+    src: /etc/openvpn/keys/static.key
+    dest: /home/waldemar/confloss2025/client_vpn/keys/static.key
+    flat: true
+
+- name: Enable and start the OpenVPN service
+  ansible.builtin.systemd_service:
+    name: openvpn@vpn_server
+    enabled: true
+    state: started

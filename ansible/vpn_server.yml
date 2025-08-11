@@ -1,0 +1,7 @@
+---
+- name: Deploy OpenVPN Service
+  hosts: vpn_server
+  become: true
+  roles:
+    - update_system
+    - openvpn_server
