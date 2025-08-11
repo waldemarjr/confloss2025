@@ -1,6 +1,13 @@
 ---
 - name: Deploy Openstack Cluster Multi Nodes
-  hosts: ctrlnodes compnodes
+  hosts: ctrlnodes 
   become: true
   roles:
     - update_system
+    - packstack
+  vars:
+    openstack:
+      version: dalmatian
+      default_password: openstack
+      keystone_admin_password: openstack
+      tmp_path: /tmp/packstack

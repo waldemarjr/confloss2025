@@ -2,10 +2,10 @@
 confloss2025-vpn_server ansible_host=52.3.4.161 ansible_user=admin
 
 [ctrlnodes]
-confloss2025-os_ctrl_node_server ansible_host=10.200.2.253 ansible_user=value
+confloss2025-os_ctrl_node_server ansible_host=10.200.2.253 ansible_user=ec2-user
 
 [compnodes]
-confloss2025-os_comp_node_server ansible_host=10.200.2.252 ansible_user=value
+confloss2025-os_comp_node_server ansible_host=10.200.2.252 ansible_user=ec2-user
 
 [all:vars]
 ansible_ssh_private_key_file=/home/waldemar/confloss2025/aws/confloss2025-privkey.pem
