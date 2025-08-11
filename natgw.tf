@@ -1,5 +1,5 @@
 resource "aws_eip" "natgw_elastic_ip" {
-  
+
   tags = merge(local.tags,
     {
       Name = "${var.project_name}-vpn_server_elastic_ip"
