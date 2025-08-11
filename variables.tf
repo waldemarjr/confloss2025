@@ -46,6 +46,10 @@ variable "vpn_server_vol_size" {
   description = "Volume size of VPN Server instance"
 }
 
+variable "vpn_server_ssh_user" {
+  type        = string
+  description = "SSH user for VPN Server Server"
+}
 
 
 // Openstack Controller Node
@@ -95,3 +99,9 @@ variable "prikey_path" {
   type        = string
   description = "Private key path"
 }
+
+variable "os_node_ssh_user" {
+  type        = string
+  description = "SSH user for Openstack instance Node Server"
+}
+
