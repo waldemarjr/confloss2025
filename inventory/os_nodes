@@ -1,5 +1,5 @@
 [vpn_server]
-confloss2025-vpn_server ansible_host=52.21.222.177
+confloss2025-vpn_server ansible_host=52.3.4.161
 
 [ctrlnodes]
 confloss2025-os_ctrl_node_server ansible_host=10.200.2.253

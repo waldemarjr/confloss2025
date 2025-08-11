@@ -1,0 +1,6 @@
+---
+- name: Deploy Openstack Cluster Multi Nodes
+  hosts: ctrlnodes compnodes
+  become: true
+  roles:
+    - update_system

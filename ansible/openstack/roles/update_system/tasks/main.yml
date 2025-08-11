@@ -1,0 +1,6 @@
+---
+- name: Update all packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: present
+    update_only: false
