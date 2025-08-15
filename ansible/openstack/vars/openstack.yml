@@ -1,0 +1,18 @@
+openstack:
+  version: train
+  default_password: openstack
+  keystone_admin_password: openstack
+  tmp_path: /tmp/packstack
+  cinder_vol_size: 10G
+  heat_install: n
+  sahara_install: n
+  conf_prov_demo: n
+  controller_node_hosts: "{{ groups['ctrlnodes'] }}"
+  compute_node_hosts: "{{ groups['compnodes'] }}"
+  network_node_hosts: "{{ groups['compnodes'] }}"
+  storage_node_host: "{{ groups['compnodes'] }}"
+  sahara_node_host: "{{ groups['ctrlnodes'] }}"
+  amqp_node_host: "{{ groups['ctrlnodes'] }}"
+  mariadb_node_host: "{{ groups['ctrlnodes'] }}"
+  keystone_node_host: "{{ groups['ctrlnodes'] }}"
+  conf_redis_hosts: "{{ groups['ctrlnodes'] }}"

@@ -37,6 +37,15 @@
     enabled: true
     daemon_reload: true
 
+- name: Populate /etc/hosts file
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }} {{item}}"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.all }}"
+
 - name: Create temp working directory for packstack
   ansible.builtin.file:
     path: "{{ openstack.tmp_path }}"
@@ -47,3 +56,30 @@
   ansible.builtin.shell: "packstack --gen-answer-file={{ openstack.tmp_path }}/packstack-answer-file.cfg"
   register: output
   changed_when: output.rc != 0
+
+- name: Modify packstack answer file
+  ansible.builtin.lineinfile:
+    path: "{{ openstack.tmp_path }}/packstack-answer-file.cfg"
+    regexp: "{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+  with_dict:
+    CONFIG_NEUTRON_OVS_BRIDGE_MAPPINGS: "extnet:br-ex"
+    CONFIG_PROVISION_DEMO: "{{ openstack.conf_prov_demo }}"
+    CONFIG_NEUTRON_OVS_BRIDGE_IFACES: "br-ex:{{ network.nic }}"
+    CONFIG_DEFAULT_PASSWORD: "{{ openstack.default_password }}"
+    CONFIG_KEYSTONE_ADMIN_PW: "{{ openstack.keystone_admin_password }}"
+    CONFIG_CINDER_VOLUMES_SIZE: "{{ openstack.cinder_vol_size }}"
+    CONFIG_HEAT_INSTALL: "{{ openstack.heat_install }}"
+    CONFIG_SAHARA_INSTALL: "{{ openstack.sahara_install }}"
+    CONFIG_CONTROLLER_HOST: "{{ openstack.controller_node_hosts }}"
+    CONFIG_COMPUTE_HOSTS: "{{ openstack.compute_node_hosts }}"
+    CONFIG_NETWORK_HOSTS: "{{ openstack.network_node_hosts }}"
+    CONFIG_STORAGE_HOST: "{{ openstack.storage_node_host }}"
+    CONFIG_SAHARA_HOST: "{{ openstack.sahara_node_host }}"
+    CONFIG_AMQP_HOST: "{{ openstack.amqp_node_host }}"
+    CONFIG_MARIADB_HOST: "{{ openstack.mariadb_node_host }}"
+    CONFIG_KEYSTONE_LDAP_URL: "ldap://{{ openstack.keystone_node_host }}"
+    CONFIG_REDIS_HOST: "{{ openstack.conf_redis_hosts }}"
+
+#- name: Run packstack
+#  ansible.builtin.shell: packstack --answer-file={{ openstack.tmp_path }}/packstack-answer-file.cfg --debug --timeout=3600 | tee "{{ openstack.tmp_path }}/packstack.log"
