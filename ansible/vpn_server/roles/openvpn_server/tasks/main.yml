@@ -43,7 +43,7 @@
 - name: Get static key file from VPN Server
   ansible.builtin.fetch:
     src: /etc/openvpn/keys/static.key
-    dest: /home/waldemar/confloss2025/client_vpn/keys/static.key
+    dest: /home/waldemar/confloss2025/client_vpn/openvpnKeys/static.key
     flat: true
 
 - name: Enable and start the OpenVPN service
