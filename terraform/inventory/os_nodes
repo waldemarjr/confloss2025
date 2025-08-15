@@ -1,0 +1,12 @@
+[vpn_server]
+confloss2025-vpn_server ansible_host=44.219.220.143 ansible_user=admin
+
+[ctrlnodes]
+confloss2025-os_ctrl_node_server ansible_host=10.200.2.253 ansible_user=centos
+
+[compnodes]
+confloss2025-os_comp_node_server ansible_host=10.200.2.252 ansible_user=centos
+
+[all:vars]
+ansible_ssh_private_key_file=/home/waldemar/confloss2025/aws/confloss2025-privkey.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

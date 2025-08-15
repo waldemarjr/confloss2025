@@ -23,5 +23,5 @@
         start: 10.200.2.100
         end: 10.200.2.150
     ssh_keys:
-      public_key_file: /home/waldemar/confloss2025/openstackSSHKeys/ctrl_node.pub
-      private_key_file: /home/waldemar/confloss2025/openstackSSHKeys/ctrl_node
+      public_key_file: /home/waldemar/confloss2025/openstackSSHKeys/OS_SSH_KEY.pub
+      private_key_file: /home/waldemar/confloss2025/openstackSSHKeys/OS_SSH_KEY
