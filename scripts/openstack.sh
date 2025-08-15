@@ -4,7 +4,7 @@
 USER_HOME="/home/waldemar"
 
 # Terraform files - IaC provisioning infrastructure.
-
+TERRAFORM_PATH="$USER_HOME/confloss2025/git/confloss2025/terraform"
 
 # Public and private keys - SSH auth - Openstack: controller e compute nodes
 OS_SSH_KEYS_DIR="$USER_HOME/confloss2025/openstackSSHKeys"
@@ -27,8 +27,7 @@ echo "+--------------------------------+"
 
 
 echo "Provisioning Cloud Infrastructure..."
-
-terraform apply -auto-approve
+terraform  -chdir=$TERRAFORM_DIR apply -auto-approve
 
 
 echo "+------------------+"
