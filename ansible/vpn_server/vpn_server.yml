@@ -5,3 +5,7 @@
   roles:
     - update_system
     - openvpn_server
+
+  vars:
+    network:
+      public_network_cidr: 10.200.2.0/24

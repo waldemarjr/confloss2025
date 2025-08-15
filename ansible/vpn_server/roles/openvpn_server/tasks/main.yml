@@ -51,3 +51,42 @@
     name: openvpn@vpn_server
     enabled: true
     state: started
+
+- name: Create rc-local.service unit file
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/rc-local.service
+    content: |
+          [Unit]
+          Description=/etc/rc.local Compatibility
+          ConditionPathExists=/etc/rc.local
+
+          [Service]
+          Type=forking
+          ExecStart=/etc/rc.local start
+          TimeoutSec=0
+          StandardOutput=tty
+          RemainAfterExit=yes
+          SysVStartPriority=99
+
+          [Install]
+          WantedBy=multi-user.target
+  become: true
+
+
+- name: Create /etc/rc.local script
+  ansible.builtin.copy:
+    dest: /etc/rc.local
+    content: |
+          #!/bin/bash
+          iptables -t nat -I POSTROUTING -d {{ network.public_network_cidr }} -j MASQUERADE
+          exit 0
+    mode: '0755'
+  become: true
+
+
+- name: Enable and start rc-local.service
+  ansible.builtin.systemd:
+    name: rc-local.service
+    enabled: true
+    state: started
+  become: true

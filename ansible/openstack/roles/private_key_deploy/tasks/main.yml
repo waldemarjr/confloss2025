@@ -1,0 +1,7 @@
+- name: Deploy private key
+  ansible.builtin.copy:
+    src: "{{ ssh_keys.private_key_file }}"
+    dest: /root/.ssh/id_rsa
+    owner: root
+    group: root
+    mode: '0600'

@@ -1,13 +1,18 @@
 ---
 - name: Install Openstack repository
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name: centos-release-openstack-{{ openstack.version }}
     state: present
 
-- name: Install packages
-  ansible.builtin.dnf:
+- name: Adjust repositories
+  ansible.builtin.shell: sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
+  register: output
+  changed_when: output.rc != 0
+
+- name: Install Openstack packstack packages
+  ansible.builtin.yum:
     name: "{{ item }}"
-    state: latest
+    state: present
     update_cache: true
   with_items:
     - python2-setuptools
@@ -15,15 +20,28 @@
     - openstack-packstack
     - openstack-nova-migration
 
-- name: Disable firewalld and network manager services
-  ansible.builtin.shell: "systemctl disable firewalld; systemctl stop firewalld; systemctl disable NetworkManager; systemctl stop NetworkManager; systemctl enable network; systemctl start network"
-  register: output
-  changed_when: output.rc != 0
+#- name: Disable and stop NetworkManager service
+#  ansible.builtin.systemd:
+#    name: "{{ item }}"
+#    state: stopped
+#    enabled: false
+#    daemon_reload: true
+#  with_items:
+#    - NetworkManager
+#    - firewalld
+
+- name: Enable and start network service
+  ansible.builtin.systemd:
+    name: network
+    state: started
+    enabled: true
+    daemon_reload: true
 
 - name: Create temp working directory for packstack
-  file:
+  ansible.builtin.file:
     path: "{{ openstack.tmp_path }}"
     state: directory
+    mode: '0755'
 
 - name: Generate initial packstack config file
   ansible.builtin.shell: "packstack --gen-answer-file={{ openstack.tmp_path }}/packstack-answer-file.cfg"

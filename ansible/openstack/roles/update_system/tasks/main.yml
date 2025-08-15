@@ -1,5 +1,10 @@
 ---
+- name: Workaround adjust repositories
+  ansible.builtin.shell: sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
+  register: output
+  changed_when: output.rc != 0
+
 - name: Update all packages
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name: "*"
     state: latest
