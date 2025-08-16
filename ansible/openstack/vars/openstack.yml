@@ -7,12 +7,12 @@ openstack:
   heat_install: n
   sahara_install: n
   conf_prov_demo: n
-  controller_node_hosts: "{{ groups['ctrlnodes'] }}"
-  compute_node_hosts: "{{ groups['compnodes'] }}"
-  network_node_hosts: "{{ groups['compnodes'] }}"
-  storage_node_host: "{{ groups['compnodes'] }}"
-  sahara_node_host: "{{ groups['ctrlnodes'] }}"
-  amqp_node_host: "{{ groups['ctrlnodes'] }}"
-  mariadb_node_host: "{{ groups['ctrlnodes'] }}"
-  keystone_node_host: "{{ groups['ctrlnodes'] }}"
-  conf_redis_hosts: "{{ groups['ctrlnodes'] }}"
+  controller_node_hosts: "{{ hostvars[groups.ctrlnodes[0]].ansible_host }}"
+  compute_node_hosts: "{{ hostvars[groups.compnodes[0]].ansible_host }}"
+  network_node_hosts: "{{ hostvars[groups.compnodes[0]].ansible_host }}"
+  storage_node_host: "{{ hostvars[groups.compnodes[0]].ansible_host }}"
+  sahara_node_host: "{{ hostvars[groups.ctrlnodes[0]].ansible_host }}"
+  amqp_node_host: "{{ hostvars[groups.ctrlnodes[0]].ansible_host }}"
+  mariadb_node_host: "{{ hostvars[groups.ctrlnodes[0]].ansible_host }}"
+  keystone_node_host: "{{ hostvars[groups.ctrlnodes[0]].ansible_host }}"
+  conf_redis_hosts: "{{ hostvars[groups.ctrlnodes[0]].ansible_host }}"

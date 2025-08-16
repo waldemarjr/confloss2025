@@ -12,5 +12,3 @@
     - ./vars/network.yml
     - ./vars/ssh.yml
     - ./vars/openstack.yml
-  
-    

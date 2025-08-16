@@ -29,23 +29,23 @@ echo "+------------------------------------------+"
 echo "Provisioning Cloud Infrastructure..."
 
 cd $TERRAFORM_PATH
-#terraform apply -auto-approve
+terraform apply -auto-approve
 
 sleep 5
 
 cd - 1>/dev/null 2>/dev/null
 
-#rm -f $OS_SSH_KEYS_DIR/*
-#ssh-keygen -t rsa -b 4096 -N "" -f $OS_SSH_KEYS_FILE 1> /dev/null
+rm -f $OS_SSH_KEYS_DIR/*
+ssh-keygen -t rsa -b 4096 -N "" -f $OS_SSH_KEYS_FILE 1> /dev/null
 
 
-#echo "+-------------------+"
-#echo "|   Compute nodes   |"
-#echo "+-------------------+"
+echo "+-------------------+"
+echo "|   Compute nodes   |"
+echo "+-------------------+"
 
-#ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
+ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
 
-#sleep 5
+sleep 5
 
 
 echo "+------------------+"
