@@ -11,7 +11,7 @@ OS_SSH_KEYS_DIR="$USER_HOME/confloss2025/openstackSSHKeys"
 OS_SSH_KEYS_FILE="$OS_SSH_KEYS_DIR/OS_SSH_KEY"
 
 # Host (openstack nodes) - Ansible inventory
-OS_INVENTORY_DIR="$USER_HOME/confloss2025/git/confloss2025/inventory"
+OS_INVENTORY_DIR="$USER_HOME/confloss2025/git/confloss2025/terraform/inventory"
 OS_INVENTORY_FILE="$OS_INVENTORY_DIR/os_nodes"
 
 # Playbooks - deploy configuration - Openstack: controller e compute nodes
