@@ -96,6 +96,7 @@ resource "aws_instance" "os_ctrl_node_server" {
 
 }
 
+
 resource "aws_network_interface" "os_ctrl_node_server_privnet_interf" {
   subnet_id       = aws_subnet.private_network.id
   private_ips     = [cidrhost(aws_subnet.private_network.cidr_block, 253)]
@@ -109,6 +110,9 @@ resource "aws_network_interface" "os_ctrl_node_server_privnet_interf" {
 }
 
 
+output "os_ctrl_ip" {
+  value = aws_network_interface.os_ctrl_node_server_privnet_interf.private_ips
+}
 
 
 // Openstack Compute Node
@@ -150,4 +154,10 @@ resource "aws_network_interface" "os_comp_node_server_privnet_interf" {
     }
   )
 }
+
+
+output "os_comp_ip" {
+  value = aws_network_interface.os_comp_node_server_privnet_interf.private_ips
+}
+
 

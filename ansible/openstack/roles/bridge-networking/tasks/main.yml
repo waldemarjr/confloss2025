@@ -1,20 +1,30 @@
 ---
-- name: Install Open vSwitch
+##- name: Install Open vSwitch
+##  ansible.builtin.yum:
+##    name: openvswitch
+##    state: present
+
+- name: Install Network service
   ansible.builtin.yum:
-    name: openvswitch
+    name: network-scripts
     state: present
 
-- name: Ensure Open vSwitch is installed (if not already)
-  ansible.builtin.package:
-    name: openvswitch
-    state: present
+##- name: Ensure Open vSwitch is installed (if not already)
+##  ansible.builtin.package:
+##    name: openvswitch
+##    state: present
 
-- name: Enable and start network service
-  ansible.builtin.systemd:
-    name: openvswitch
-    state: started
-    enabled: true
-    daemon_reload: true
+##- name: Ensure network service is installed (if not already)
+##  ansible.builtin.package:
+##    name: network-scripts
+##    state: present
+
+##- name: Enable and start openvswitch network service
+##  ansible.builtin.systemd:
+##    name: openvswitch
+##    state: started
+##    enabled: true
+##    daemon_reload: true
 
 - name: Deploy OVS cfg file
   ansible.builtin.template:
@@ -28,7 +38,18 @@
     dest: /etc/sysconfig/network-scripts/ifcfg-eth0
     mode: '0755'
 
-- name: Restart network
-  ansible.builtin.service:
-    name: network
-    state: restarted
+#- name: Enable and start network service
+#  ansible.builtin.systemd:
+#    name: network
+#    state: restarted
+#    enabled: true
+#    daemon_reload: true
+
+- name: Disable and stop NetworkManager service
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+    daemon_reload: true
+  with_items:
+    - NetworkManager

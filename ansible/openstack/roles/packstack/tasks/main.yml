@@ -1,11 +1,17 @@
 ---
+- name: Disable a specific YUM repository
+  ansible.builtin.yum_repository:
+    name: "epel"
+    enabled: no
+    state: present
+
 - name: Install Openstack repository
   ansible.builtin.yum:
     name: centos-release-openstack-{{ openstack.version }}
     state: present
 
 - name: Adjust repositories
-  ansible.builtin.shell: sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
+  ansible.builtin.shell: sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/*.repo
   register: output
   changed_when: output.rc != 0
 
@@ -19,16 +25,7 @@
     - yum-utils
     - openstack-packstack
     - openstack-nova-migration
-
-#- name: Disable and stop NetworkManager service
-#  ansible.builtin.systemd:
-#    name: "{{ item }}"
-#    state: stopped
-#    enabled: false
-#    daemon_reload: true
-#  with_items:
-#    - NetworkManager
-#    - firewalld
+    - network-scripts
 
 - name: Enable and start network service
   ansible.builtin.systemd:

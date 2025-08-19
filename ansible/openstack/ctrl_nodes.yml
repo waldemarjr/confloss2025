@@ -6,6 +6,8 @@
     - update_system
     - public_key_deploy
     - private_key_deploy
+    - ssh
+    - bridge-networking
     - packstack
 
   vars_files:

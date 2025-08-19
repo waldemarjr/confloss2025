@@ -1,3 +1,6 @@
 ssh_keys:
   public_key_file: /home/waldemar/confloss2025/openstackSSHKeys/OS_SSH_KEY.pub
   private_key_file: /home/waldemar/confloss2025/openstackSSHKeys/OS_SSH_KEY
+
+ssh_config:
+  path: /etc/ssh/sshd_config

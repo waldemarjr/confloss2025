@@ -1,5 +1,5 @@
 openstack:
-  version: train
+  version: ussuri
   default_password: openstack
   keystone_admin_password: openstack
   tmp_path: /tmp/packstack
