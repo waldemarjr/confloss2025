@@ -3,12 +3,13 @@
   hosts: ctrlnodes
   become: true
   roles:
-    - update_system
-    - public_key_deploy
-    - private_key_deploy
-    - ssh
-    - bridge-networking
-    - packstack
+  #  - update_system
+  #  - public_key_deploy
+  #  - private_key_deploy
+  #  - ssh
+  #  - networking
+  #  - packstack
+    - openstack-external-net
 
   vars_files:
     - ./vars/network.yml

@@ -41,7 +41,7 @@ echo "+------------------------------------------+"
 
 echo "Provisioning Cloud Infrastructure..."
 
-cd $TERRAFORM_PATH
+#cd $TERRAFORM_PATH
 #terraform apply -auto-approve
 
 sleep $WAIT_TIME
@@ -69,26 +69,28 @@ echo
 #ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
 
 
-sleep $WAIT_TIME
+#read -s -p "Pressione uma tecla para continuar..." opc
+
 
 #echo "Establishing connection to VPN server..."
 #sudo $VPN_SCRIPT_PATH/connectVPC.sh 2> /dev/null &
 
 
-sleep $WAIT_TIME
+
+#sleep $WAIT_TIME
 
 
-echo "Make public and private keys..."
-rm -f $OS_SSH_KEYS_DIR/*
-ssh-keygen -t rsa -b 4096 -N "" -f $OS_SSH_KEYS_FILE 1> /dev/null
+#echo "Make public and private keys..."
+#rm -f $OS_SSH_KEYS_DIR/*
+#ssh-keygen -t rsa -b 4096 -N "" -f $OS_SSH_KEYS_FILE 1> /dev/null
 
 
 echo "+-------------------+"
-echo "|   Compute nodes   |"
+echo "|   Compute node    |"
 echo "+-------------------+"
 
 
-echo -n "Waiting SSH service on compute nodes"
+echo -n "Waiting SSH service on compute node"
 OS_COMP_IP=`terraform -chdir=$TERRAFORM_PATH output -json os_comp_ip |jq -r '.[0]'`
 
 while [ true ]; do 
@@ -101,14 +103,14 @@ while [ true ]; do
 done
 echo
 
-ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
+#ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
 
 
 sleep $WAIT_TIME
 
 
 echo "+------------------+"
-echo "| Controller nodes |"
+echo "| Controller node |"
 echo "+------------------+"
 
 
@@ -126,5 +128,3 @@ done
 echo
 
 ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_CTRL_PB_DEPLOY"
-
-exit 0

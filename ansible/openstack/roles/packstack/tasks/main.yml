@@ -1,9 +1,4 @@
 ---
-- name: Disable EPEL repository
-  community.general.dnf_config_manager:
-    name: epel
-    state: disabled
-
 - name: Install Openstack repository
   ansible.builtin.yum:
     name: centos-release-openstack-{{ openstack.version }}
@@ -25,6 +20,12 @@
     - openstack-packstack
     - openstack-nova-migration
     - network-scripts
+
+- name: Adjust repositories
+  ansible.builtin.shell: sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/*.repo
+  register: output
+  changed_when: output.rc != 0
+
 
 - name: Populate /etc/hosts file
   ansible.builtin.lineinfile:
@@ -71,4 +72,4 @@
     CONFIG_REDIS_HOST: "{{ openstack.conf_redis_hosts }}"
 
 - name: Run packstack
-  ansible.builtin.shell: packstack --answer-file={{ openstack.tmp_path }}/packstack-answer-file.cfg --debug  | tee "{{ openstack.tmp_path }}/packstack.log"
+  ansible.builtin.shell: "packstack --answer-file={{ openstack.tmp_path }}/packstack-answer-file.cfg --debug  | tee {{ openstack.tmp_path }}/packstack.log "
