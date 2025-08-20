@@ -1,0 +1,10 @@
+---
+- name: Adjust repositories
+  ansible.builtin.shell: sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/*.repo
+  register: output
+  changed_when: output.rc != 0
+
+- name: Disable EPEL repository
+  community.general.dnf_config_manager:
+    name: epel
+    state: disabled

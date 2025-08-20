@@ -1,9 +1,8 @@
 ---
-- name: Disable a specific YUM repository
-  ansible.builtin.yum_repository:
-    name: "epel"
-    enabled: no
-    state: present
+- name: Disable EPEL repository
+  community.general.dnf_config_manager:
+    name: epel
+    state: disabled
 
 - name: Install Openstack repository
   ansible.builtin.yum:
@@ -26,13 +25,6 @@
     - openstack-packstack
     - openstack-nova-migration
     - network-scripts
-
-- name: Enable and start network service
-  ansible.builtin.systemd:
-    name: network
-    state: started
-    enabled: true
-    daemon_reload: true
 
 - name: Populate /etc/hosts file
   ansible.builtin.lineinfile:
@@ -78,5 +70,5 @@
     CONFIG_KEYSTONE_LDAP_URL: "ldap://{{ openstack.keystone_node_host }}"
     CONFIG_REDIS_HOST: "{{ openstack.conf_redis_hosts }}"
 
-#- name: Run packstack
-#  ansible.builtin.shell: packstack --answer-file={{ openstack.tmp_path }}/packstack-answer-file.cfg --debug --timeout=3600 | tee "{{ openstack.tmp_path }}/packstack.log"
+- name: Run packstack
+  ansible.builtin.shell: packstack --answer-file={{ openstack.tmp_path }}/packstack-answer-file.cfg --debug  | tee "{{ openstack.tmp_path }}/packstack.log"

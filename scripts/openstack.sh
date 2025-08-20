@@ -42,9 +42,9 @@ echo "+------------------------------------------+"
 echo "Provisioning Cloud Infrastructure..."
 
 cd $TERRAFORM_PATH
-terraform apply -auto-approve
+#terraform apply -auto-approve
 
-sleep 5
+sleep $WAIT_TIME
 
 cd - 1>/dev/null 2>/dev/null
 
@@ -53,7 +53,7 @@ echo "+-------------------+"
 echo "|   VPN Server      |"
 echo "+-------------------+"
 
-echo "Waiting SSH service on VPN Server"
+echo -n "Waiting SSH service on VPN Server"
 VPN_SERVER_IP=`terraform -chdir=$TERRAFORM_PATH output -raw vpn_server_elastic_ip`
 
 while [ true ]; do 
@@ -64,14 +64,18 @@ while [ true ]; do
     echo -n .
     sleep $WAIT_TIME
 done
-echo 
+echo
 
-ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
+#ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
 
 
-sleep 5
-echo "Establishing connection to VPN server..."
-$VPN_SCRIPT_PATH/connectVPC.sh 1> /dev/null 2> /dev/null &
+sleep $WAIT_TIME
+
+#echo "Establishing connection to VPN server..."
+#sudo $VPN_SCRIPT_PATH/connectVPC.sh 2> /dev/null &
+
+
+sleep $WAIT_TIME
 
 
 echo "Make public and private keys..."
@@ -84,7 +88,7 @@ echo "|   Compute nodes   |"
 echo "+-------------------+"
 
 
-echo "Waiting SSH service on compute nodes"
+echo -n "Waiting SSH service on compute nodes"
 OS_COMP_IP=`terraform -chdir=$TERRAFORM_PATH output -json os_comp_ip |jq -r '.[0]'`
 
 while [ true ]; do 
@@ -100,7 +104,7 @@ echo
 ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
 
 
-sleep 5
+sleep $WAIT_TIME
 
 
 echo "+------------------+"
@@ -108,7 +112,7 @@ echo "| Controller nodes |"
 echo "+------------------+"
 
 
-echo "Waiting SSH service on controller node"
+echo -n "Waiting SSH service on controller node"
 OS_CTRL_IP=`terraform -chdir=$TERRAFORM_PATH output -json os_ctrl_ip |jq -r '.[0]'`
 
 while [ true ]; do 

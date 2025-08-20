@@ -8,6 +8,7 @@
     - private_key_deploy
     - ssh
     - bridge-networking
+    - repository_workaround
 
   vars_files:
     - ./vars/ssh.yml

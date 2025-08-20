@@ -1,4 +1,14 @@
 ---
+- name: Disable SELinux
+  ansible.builtin.shell: setenforce 0 ; sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
+  register: output
+  changed_when: output.rc != 0
+
+- name: Disable EPEL repository
+  community.general.dnf_config_manager:
+    name: epel
+    state: disabled
+
 - name: Workaround adjust repositories
   ansible.builtin.shell: sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
   register: output
