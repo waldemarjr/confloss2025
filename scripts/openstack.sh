@@ -41,8 +41,8 @@ echo "+------------------------------------------+"
 
 echo "Provisioning Cloud Infrastructure..."
 
-#cd $TERRAFORM_PATH
-#terraform apply -auto-approve
+cd $TERRAFORM_PATH
+terraform apply -auto-approve
 
 sleep $WAIT_TIME
 
@@ -66,23 +66,21 @@ while [ true ]; do
 done
 echo
 
-#ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
-
-
-#read -s -p "Pressione uma tecla para continuar..." opc
-
-
-#echo "Establishing connection to VPN server..."
-#sudo $VPN_SCRIPT_PATH/connectVPC.sh 2> /dev/null &
+ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
 
 
 
-#sleep $WAIT_TIME
+
+echo "Please connect to the VPN via another terminal using: $VPN_SCRIPT_PATH, and then press any key to continue."
+read -s -p ""
 
 
-#echo "Make public and private keys..."
-#rm -f $OS_SSH_KEYS_DIR/*
-#ssh-keygen -t rsa -b 4096 -N "" -f $OS_SSH_KEYS_FILE 1> /dev/null
+sleep $WAIT_TIME
+
+
+echo "Make public and private keys..."
+rm -f $OS_SSH_KEYS_DIR/*
+ssh-keygen -t rsa -b 4096 -N "" -f $OS_SSH_KEYS_FILE 1> /dev/null
 
 
 echo "+-------------------+"
@@ -103,7 +101,7 @@ while [ true ]; do
 done
 echo
 
-#ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
+ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
 
 
 sleep $WAIT_TIME
