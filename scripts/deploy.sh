@@ -3,6 +3,9 @@
 # SSH Port
 SSH_PORT=22
 
+# VPN Service Port
+OVPN_PORT=63391
+
 # Wait time
 WAIT_TIME=5
 
@@ -56,23 +59,29 @@ echo "+-------------------+"
 echo -n "Waiting SSH service on VPN Server"
 VPN_SERVER_IP=`terraform -chdir=$TERRAFORM_PATH output -raw vpn_server_elastic_ip`
 
-while [ true ]; do 
+while [ true ]; do
     nc -zw 3 $VPN_SERVER_IP $SSH_PORT
-    if [ $? -eq 0 ]; then
+    if [[ $? -eq 0 ]]; then
         break;
     fi
     echo -n .
     sleep $WAIT_TIME
 done
+
 echo
 
-ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
+#ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
 
+ 
 
-
-
-echo "Please connect to the VPN via another terminal using: $VPN_SCRIPT_PATH, and then press any key to continue."
-read -s -p ""
+#while [ true ]; do 
+#    nc -zw 3 $VPN_SERVER_IP $OVPN_PORT
+#    if [ $? -eq 0 ]; then
+#        break;
+#    fi
+#    echo -n .
+#    sleep $WAIT_TIME
+#done
 
 
 sleep $WAIT_TIME
@@ -91,15 +100,15 @@ echo "+-------------------+"
 echo -n "Waiting SSH service on compute node"
 OS_COMP_IP=`terraform -chdir=$TERRAFORM_PATH output -json os_comp_ip |jq -r '.[0]'`
 
-while [ true ]; do 
-    nc -zw 3 $OS_COMP_IP $SSH_PORT
-    if [ $? -eq 0 ]; then
-        break;
-    fi
-    echo -n .
-    sleep $WAIT_TIME
-done
-echo
+#while [ true ]; do 
+#    nc -zw 3 $OS_COMP_IP $SSH_PORT
+#    if [ $? -eq 0 ]; then
+#        break;
+#    fi
+#    echo -n .
+#    sleep $WAIT_TIME
+#done
+#echo
 
 ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
 
@@ -115,14 +124,14 @@ echo "+------------------+"
 echo -n "Waiting SSH service on controller node"
 OS_CTRL_IP=`terraform -chdir=$TERRAFORM_PATH output -json os_ctrl_ip |jq -r '.[0]'`
 
-while [ true ]; do 
-    nc -zw 3 $OS_CTRL_IP $SSH_PORT
-    if [ $? -eq 0 ]; then
-        break;
-    fi
-    echo -n .
-    sleep $WAIT_TIME
-done
-echo
+#while [ true ]; do 
+#    nc -zw 3 $OS_CTRL_IP $SSH_PORT
+#    if [ $? -eq 0 ]; then
+#        break;
+#    fi
+#    echo -n .
+#    sleep $WAIT_TIME
+#done
+#echo
 
-ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_CTRL_PB_DEPLOY"
+#ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_CTRL_PB_DEPLOY"

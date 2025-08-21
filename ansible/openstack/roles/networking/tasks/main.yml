@@ -4,6 +4,12 @@
     name: network-scripts
     state: present
 
+- name: Deploy OVS cfg file
+  ansible.builtin.template:
+    src: ifcfg-br-ex.j2
+    dest: /etc/sysconfig/network-scripts/ifcfg-br-ex
+    mode: '0755'
+
 - name: Deploy eth dev cfg file
   ansible.builtin.template:
     src: ifcfg-eth.j2

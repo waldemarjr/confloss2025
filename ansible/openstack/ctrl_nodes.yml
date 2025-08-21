@@ -7,7 +7,7 @@
     - public_key_deploy
     - private_key_deploy
     - ssh
-    - networking
+    #- networking
     - packstack
     - openstack-external-net
 
