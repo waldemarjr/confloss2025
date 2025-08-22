@@ -52,6 +52,7 @@ sleep $WAIT_TIME
 cd - 1>/dev/null 2>/dev/null
 
 
+
 echo "+-------------------+"
 echo "|   VPN Server      |"
 echo "+-------------------+"
@@ -70,18 +71,18 @@ done
 
 echo
 
-#ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
+ansible-playbook -i "$OS_INVENTORY_FILE" "$VPN_SRV_PB_DEPLOY" 
 
  
 
-#while [ true ]; do 
-#    nc -zw 3 $VPN_SERVER_IP $OVPN_PORT
-#    if [ $? -eq 0 ]; then
-#        break;
-#    fi
-#    echo -n .
-#    sleep $WAIT_TIME
-#done
+while [ true ]; do 
+    nc -zw 3 $VPN_SERVER_IP $OVPN_PORT
+    if [ $? -eq 0 ]; then
+        break;
+    fi
+    echo -n .
+    sleep $WAIT_TIME
+done
 
 
 sleep $WAIT_TIME
@@ -100,21 +101,20 @@ echo "+-------------------+"
 echo -n "Waiting SSH service on compute node"
 OS_COMP_IP=`terraform -chdir=$TERRAFORM_PATH output -json os_comp_ip |jq -r '.[0]'`
 
-#while [ true ]; do 
-#    nc -zw 3 $OS_COMP_IP $SSH_PORT
-#    if [ $? -eq 0 ]; then
-#        break;
-#    fi
-#    echo -n .
-#    sleep $WAIT_TIME
-#done
-#echo
+while [ true ]; do 
+    nc -zw 3 $OS_COMP_IP $SSH_PORT
+    if [ $? -eq 0 ]; then
+        break;
+    fi
+    echo -n .
+    sleep $WAIT_TIME
+done
+echo
 
 ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_COMP_PB_DEPLOY" 
 
 
 sleep $WAIT_TIME
-
 
 echo "+------------------+"
 echo "| Controller node |"
@@ -124,14 +124,14 @@ echo "+------------------+"
 echo -n "Waiting SSH service on controller node"
 OS_CTRL_IP=`terraform -chdir=$TERRAFORM_PATH output -json os_ctrl_ip |jq -r '.[0]'`
 
-#while [ true ]; do 
-#    nc -zw 3 $OS_CTRL_IP $SSH_PORT
-#    if [ $? -eq 0 ]; then
-#        break;
-#    fi
-#    echo -n .
-#    sleep $WAIT_TIME
-#done
-#echo
+while [ true ]; do 
+    nc -zw 3 $OS_CTRL_IP $SSH_PORT
+    if [ $? -eq 0 ]; then
+        break;
+    fi
+    echo -n .
+    sleep $WAIT_TIME
+done
+echo
 
-#ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_CTRL_PB_DEPLOY"
+ansible-playbook -i "$OS_INVENTORY_FILE" "$OS_CTRL_PB_DEPLOY"
